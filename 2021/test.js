@@ -10,12 +10,12 @@ var Matrix = [
 ["1","2","9","3","1","3","8","5","2","1"],
 ["2","3","1","1","9","4","4","5","8","1"]
 ];   
- 
+var obj = [{}]
 var rowIndex = 0;
 var columnIndex = 0;
 var path = [];
 var nextIndexValue = 0;
-var underIndexValue = 0
+var underIndexValue = 0;
 function isNextColumnIndexGreater(currentIndex, nextIndex) {
   return parseInt(currentIndex) < parseInt(nextIndex);
 }
@@ -25,48 +25,29 @@ function isNextRowSameIndexGreater(currentIndex, rowIndex) {
 function returnGreatestValue(currentIndex, nextIndex) {
   return parseInt(currentIndex) > parseInt(nextIndex) ? parseInt(currentIndex) : parseInt(nextIndex);
 }
+// console.log("Matrix: " +Matrix.length)
+// console.log("RowIndex: " +rowIndex)
 
-for (let i = 0; i < Matrix.length; i++) {
-  const element = Matrix[i];
-  if(i < Matrix.length -1) {
-    for (let j = 0; j < element.length; j++) {
-      const subElement = element[j];
-      if(j < element.length -1) {
-        if (isNextColumnIndexGreater(subElement,element[j+1])){
-          nextIndexValue = parseInt(element[j+1]);
-        }
-        if (isNextRowSameIndexGreater(subElement,Matrix[i+1][j])){
-          underIndexValue = parseInt(Matrix[i+1][j]);
-        }
-        if(nextIndexValue < underIndexValue){
-          path.push(nextIndexValue);
-          rowIndex = j+1;
-        //   columnIndex = 0;
-        }
-        else {
-          path.push(underIndexValue);
-          columnIndex = i+1;
-        //   rowIndex = 0;
-          break;
-        }
-      }
-      if(j === element.length -1){
-        path.push(underIndexValue);
-        columnIndex = i+1;
-        // rowIndex = 0;
-        break;
-      }
-    }
+while (rowIndex < Matrix.length -1 ) {
+
+  nextIndexValue = parseInt(Matrix[rowIndex][columnIndex+1])
+  underIndexValue = parseInt(Matrix[rowIndex+1][columnIndex])
+
+  if(nextIndexValue >= underIndexValue){
+    path.push(underIndexValue)
+    rowIndex++
+  }else if(nextIndexValue < underIndexValue){
+    path.push(nextIndexValue)
+    columnIndex++;
   }
-  if(i === Matrix.length -1) {
-    path.push(nextIndexValue);
-    rowIndex++;
-    // columnIndex = 0;
-  }
+
+  obj.push({rowIndex,columnIndex})
 }
+
 console.log(path);
 var score = 0;
 path.forEach(element => {
   score += element;
 });
 console.log(score);
+console.dir(obj);
